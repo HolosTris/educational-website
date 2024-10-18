@@ -36,7 +36,7 @@ const customQuestionCon = document.getElementById("custom-question");
 
 const expandBtn = document.getElementById("expand-btn");
 
-expandBtn.onclick = () => (customQuestionCon.innerHTML = hiddenHTML);
+expandBtn.onclick = () => (customQuestionCon.innerHTML = customQuestionHTML);
 
 // Results
 
