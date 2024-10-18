@@ -1,0 +1,168 @@
+.logo {
+  position: relative;
+}
+.logo-bg {
+  position: absolute;
+  height: 200px;
+  width: 200px;
+
+  /* border: 2px solid #ccc;
+  border-radius: 8px; */
+}
+.logo:focus {
+  animation: shaking 3s forwards ease;
+}
+.logo-t {
+  position: absolute;
+  height: 90px;
+  width: 39px;
+
+  left: 22px;
+  top: 30px;
+}
+.logo:focus .logo-t {
+  animation: slideLetterT 3s forwards ease;
+}
+.logo-a {
+  position: absolute;
+  height: 90px;
+  width: 42px;
+
+  left: 134px;
+  top: 80px;
+}
+.logo:focus .logo-a {
+  animation: slideLetterA 3s forwards ease;
+}
+.logo-dot:nth-of-type(1) {
+  position: absolute;
+  width: 32px;
+
+  left: 29px;
+  top: 139px;
+
+  opacity: 0;
+}
+.logo:hover .logo-dot:nth-of-type(1) {
+  animation: arrive 1s forwards ease;
+}
+.logo:focus .logo-dot:nth-of-type(1) {
+  animation: slideDot1 3s forwards ease;
+}
+.logo-dot:nth-of-type(2) {
+  position: absolute;
+  width: 32px;
+
+  left: 83px;
+  top: 84px;
+
+  opacity: 0;
+}
+.logo:focus .logo-dot:nth-of-type(2) {
+  animation: slideDot2 3s forwards ease;
+}
+.logo-dot:nth-of-type(3) {
+  position: absolute;
+  width: 32px;
+
+  left: 139px;
+  top: 30px;
+
+  opacity: 0;
+}
+.logo:hover .logo-dot:nth-of-type(3) {
+  animation: arrive 1s forwards ease;
+}
+.logo:focus .logo-dot:nth-of-type(3) {
+  animation: slideDot3 3s forwards ease;
+}
+
+@keyframes arrive {
+  from {
+    opacity: 0;
+    scale: 0;
+  }
+
+  to {
+    opacity: 1;
+    scale: 100%;
+  }
+}
+
+@keyframes slideLetterT {
+  from {
+    translate: 0 0;
+    opacity: 1;
+  }
+
+  to {
+    translate: 56px 25px;
+    color: #000;
+    opacity: 0;
+  }
+}
+
+@keyframes slideLetterA {
+  from {
+    translate: 0 0;
+    opacity: 1;
+  }
+
+  to {
+    translate: -56px -25px;
+    color: #000;
+    opacity: 0;
+  }
+}
+
+@keyframes slideDot1 {
+  from {
+    translate: 0 0;
+    opacity: 1;
+  }
+
+  to {
+    translate: 0 -55px;
+    opacity: 1;
+  }
+}
+
+@keyframes slideDot2 {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideDot3 {
+  from {
+    translate: 0 0;
+    opacity: 1;
+  }
+
+  to {
+    translate: 0 54px;
+    opacity: 1;
+  }
+}
+
+@keyframes shaking {
+  80% {
+    transform: translateY(0);
+  }
+  85% {
+    transform: translateY(3px);
+  }
+  90% {
+    transform: translateY(-3px);
+  }
+  95% {
+    transform: translateY(3px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
