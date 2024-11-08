@@ -91,6 +91,9 @@ footer {
 header {
   align-items: center;
   justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 999;
   /* gap: 10px; */
   /* height: 100px; */
 }
@@ -172,8 +175,23 @@ h3 {
   font-size: 12px;
   /* text-transform: uppercase; */
 }
+article div img,
+article div video {
+  height: 200px;
+  border-radius: 16px;
+}
+article div img {
+  width: 200px;
+}
+article div {
+  display: flex;
+  padding: 10px 0;
+}
 p {
   line-height: 24px;
+}
+article div p {
+  padding: 0 20px;
 }
 a {
   /* color: var(--color100); */
