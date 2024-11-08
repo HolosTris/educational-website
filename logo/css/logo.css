@@ -1,5 +1,9 @@
 .logo {
   position: relative;
+  height: 200px;
+}
+.bg {
+  background-color: #eeed;
 }
 .logo-bg {
   position: absolute;

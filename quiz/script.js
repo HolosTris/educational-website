@@ -7,36 +7,52 @@ for (let i = 0; i < quiz.length; i++) {
   quiz[i].answers = shuffleArray(quiz[i].answers);
 }
 
-let iQuestion = 0;
+// let iQuestion = 0;
 
 // Start quiz
 
 const container = document.getElementById("container");
-container.innerHTML = quizHTML;
+// container.innerHTML = questionHTML;
 
 // start();
+let questionElem;
 
-const explanationElem = document.getElementById("explanation");
+let explanationElem;
 
 const selectBtn = document.getElementById("select-btn");
 
 selectBtn.onclick = () =>
   showRightAnswer(
     iQuestion,
-    +document.querySelector('input[name="answer"]:checked').value
+    +document.querySelector(`input[name="answer-${iQuestion}"]:checked`).value
   );
 
 const nextBtn = document.getElementById("next-btn");
 
-nextBtn.onclick = () => showQuestion(++iQuestion);
+nextBtn.onclick = () => {
+  closeQuestion(iQuestion);
+
+  const questionCon = document.getElementById(`question-${iQuestion}`);
+
+  questionCon.onclick = () => {
+    if (
+      questionCon.getElementsByClassName("explanation")[0].style.display ==
+      "none"
+    )
+      openQuestion(+questionCon.id.slice(-1));
+    else closeQuestion(+questionCon.id.slice(-1));
+  };
+
+  showQuestion(++iQuestion);
+};
 
 showQuestion(0);
 
-const customQuestionCon = document.getElementById("custom-question");
+// const customQuestionCon = document.getElementById("custom-question");
 
 const expandBtn = document.getElementById("expand-btn");
 
-expandBtn.onclick = () => (customQuestionCon.innerHTML = customQuestionHTML);
+// expandBtn.onclick = () => (customQuestionCon.innerHTML = customQuestionHTML);
 
 // Results
 
@@ -48,19 +64,42 @@ finishBtn.onclick = () => showStats();
 // Functions
 
 function showQuestion(i) {
-  const questionElem = document.getElementById("question");
+  console.log(iQuestion);
+  container
+    .getElementsByClassName("submit-btn")[0]
+    .insertAdjacentHTML("beforebegin", createQuestionHTML());
+
+  questionElem =
+    document.getElementsByClassName("question")[
+      document.getElementsByClassName("question").length - 1
+    ];
+
+  explanationElem =
+    document.getElementsByClassName("explanation")[
+      document.getElementsByClassName("explanation").length - 1
+    ];
+
+  questionElem.classList = "question";
   questionElem.innerText = `${i + 1}. ` + quiz[i].question;
 
-  const answerAElem = document.querySelector('label[for="answer-0"]');
+  const answerAElem = document.querySelector(
+    `label[for="answer-${iQuestion}-0"]`
+  );
   answerAElem.innerText = quiz[i].answers[0];
 
-  const answerBElem = document.querySelector('label[for="answer-1"]');
+  const answerBElem = document.querySelector(
+    `label[for="answer-${iQuestion}-1"]`
+  );
   answerBElem.innerText = quiz[i].answers[1];
 
-  const answerCElem = document.querySelector('label[for="answer-2"]');
+  const answerCElem = document.querySelector(
+    `label[for="answer-${iQuestion}-2"]`
+  );
   answerCElem.innerText = quiz[i].answers[2];
 
-  const answerDElem = document.querySelector('label[for="answer-3"]');
+  const answerDElem = document.querySelector(
+    `label[for="answer-${iQuestion}-3"]`
+  );
   answerDElem.innerText = quiz[i].answers[3];
 
   // Clear selected
@@ -86,21 +125,51 @@ function showQuestion(i) {
   enableRadios();
 }
 
+function closeQuestion(i) {
+  const questionCon = document.getElementById(`question-${i}`);
+
+  questionCon.classList.add("answered");
+
+  for (let inp of questionCon.getElementsByClassName("input-con")) {
+    inp.style.display = "none";
+    inp.children[0].disabled = true;
+  }
+
+  questionCon.getElementsByClassName("explanation")[0].style.display = "none";
+}
+
+function openQuestion(i) {
+  const questionCon = document.getElementById(`question-${i}`);
+
+  // questionCon.classList.add("answered");
+
+  for (let inp of questionCon.getElementsByClassName("input-con"))
+    inp.style.display = "block";
+
+  questionCon.getElementsByClassName("explanation")[0].style.display = "block";
+}
+
 function showRightAnswer(iQuestion, iAnswer) {
-  const explanationElem = document.getElementById("explanation");
+  // const explanationElem = document.getElementById("explanation");
   explanationElem.style.display = "block";
 
-  const answerElems = document.querySelectorAll(`input[name="answer"]+label`);
+  const answerElems = document.querySelectorAll(
+    `input[name="answer-${iQuestion}"]+label`
+  );
 
   answerElems.forEach((elem) => elem.classList.add("slide-right"));
   answerElems[iAnswer].classList.remove("slide-right");
 
-  const answerElem = document.querySelector(`label[for="answer-${iAnswer}"]`);
+  // const questionElem = document.getElementById("question");
+  const answerElem = document.querySelector(
+    `label[for="answer-${iQuestion}-${iAnswer}"]`
+  );
 
   if (rightAns[iQuestion] === quiz[iQuestion].answers[iAnswer]) {
     explanationElem.innerHTML =
       "<strong>Да!</strong> " + quiz[iQuestion].explanation;
 
+    questionElem.classList.add("correct");
     answerElem.classList.add("correct");
     quiz[iQuestion].correct = true;
     numRightAns++;
@@ -110,6 +179,7 @@ function showRightAnswer(iQuestion, iAnswer) {
     explanationElem.innerHTML =
       "<strong>Нет.</strong> " + quiz[iQuestion].explanation;
 
+    questionElem.classList.add("incorrect");
     answerElem.classList.add("incorrect");
     quiz[iQuestion].correct = false;
   }
@@ -123,13 +193,13 @@ function showRightAnswer(iQuestion, iAnswer) {
 }
 
 function disableRadios() {
-  const radios = document.querySelectorAll('input[name="answer"]');
+  const radios = document.querySelectorAll(`input[name="answer-${iQuestion}"]`);
 
   for (let i = 0; i < radios.length; i++) radios[i].disabled = true;
 }
 
 function enableRadios() {
-  const radios = document.querySelectorAll('input[name="answer"]');
+  const radios = document.querySelectorAll(`input[name="answer-${iQuestion}"]`);
 
   for (let i = 0; i < radios.length; i++) radios[i].disabled = false;
 }

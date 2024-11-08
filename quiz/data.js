@@ -1,4 +1,5 @@
 // Misc
+let iQuestion = 0;
 
 const questions = [
   {
@@ -47,31 +48,53 @@ const questions = [
   },
 ];
 
-const quizHTML = `
-        <h1>Мини-квиз</h1>
-        <hr />
-        <strong id="question">
-        </strong>
-        <div class="input-con">
-          <input type="radio" id="answer-0" name="answer" value="0" />
-          <label for="answer-0"></label>
-        </div>
-        <div class="input-con">
-          <input type="radio" id="answer-1" name="answer" value="1" />
-          <label for="answer-1"></label>
-        </div>
-        <div class="input-con">
-          <input type="radio" id="answer-2" name="answer" value="2" />
-          <label for="answer-2"></label>
-        </div>
-        <div class="input-con">
-          <input type="radio" id="answer-3" name="answer" value="3" />
-          <label for="answer-3"></label>
-        </div>
-        <div id="explanation"></div>
-        <button class="submit-btn" id="select-btn">Ответить</button>
-        <button class="submit-btn" id="next-btn">Далее ▶</button>
-        <button class="submit-btn" id="finish-btn">Закончить</button>`;
+function createQuestionHTML() {
+  return `
+        <div class="question-con" id="question-${iQuestion}">
+          <hr />
+          <strong class="question"> </strong>
+          <div class="input-con">
+            <input type="radio" id="answer-${iQuestion}-0" name="answer-${iQuestion}" value="0" />
+            <label for="answer-${iQuestion}-0"></label>
+          </div>
+          <div class="input-con">
+            <input type="radio" id="answer-${iQuestion}-1" name="answer-${iQuestion}" value="1" />
+            <label for="answer-${iQuestion}-1"></label>
+          </div>
+          <div class="input-con">
+            <input type="radio" id="answer-${iQuestion}-2" name="answer-${iQuestion}" value="2" />
+            <label for="answer-${iQuestion}-2"></label>
+          </div>
+          <div class="input-con">
+            <input type="radio" id="answer-${iQuestion}-3" name="answer-${iQuestion}" value="3" />
+            <label for="answer-${iQuestion}-3"></label>
+          </div>
+          <div class="explanation"></div>
+        </div>`;
+}
+
+const questionHTML = `
+        <div class="question-con">
+          <hr />
+          <strong class="question"> </strong>
+          <div class="input-con">
+            <input type="radio" id="answer-${iQuestion}-0" name="answer" value="0" />
+            <label for="answer-${iQuestion}-0"></label>
+          </div>
+          <div class="input-con">
+            <input type="radio" id="answer-${iQuestion}-1" name="answer" value="1" />
+            <label for="answer-${iQuestion}-1"></label>
+          </div>
+          <div class="input-con">
+            <input type="radio" id="answer-${iQuestion}-2" name="answer" value="2" />
+            <label for="answer-${iQuestion}-2"></label>
+          </div>
+          <div class="input-con">
+            <input type="radio" id="answer-${iQuestion}-3" name="answer" value="3" />
+            <label for="answer-${iQuestion}-3"></label>
+          </div>
+          <div class="explanation"></div>
+        </div>`;
 
 const resultsHTML = `
         <h1>Мини-квиз</h1>

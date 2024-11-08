@@ -127,6 +127,7 @@ footer .bg {
 
 main {
   flex-direction: column;
+  /* background-color: #fff; */
 }
 
 article {

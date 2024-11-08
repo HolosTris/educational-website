@@ -9,17 +9,59 @@
     <title>Мини-квиз</title>
   </head>
   <body>
-    <main>
+    <header>
+      <div class="title">
+        <a href="../">
+          <img src="../img/Logo.png" alt="logo" />
+        </a>
+        <h1>CSS-лого</h1>
+      </div>
+
+      <nav>
+        <a href="../pic.html">CSS-картинка</a>
+        <a href="../logo/logo.html">CSS-лого</a>
+        <a href="../quiz/">Мини-квиз</a>
+      </nav>
+      <div class="bg"></div>
+    </header>
+    <main id="quiz">
       <section id="container">
-        <!-- quizHTML -->
+        <h1>Мини-квиз</h1>
+        <!-- questionHTML -->
+
+        <!-- <div class="question-con">
+          <hr />
+          <strong class="question"> </strong>
+          <div class="input-con">
+            <input type="radio" id="answer-0" name="answer" value="0" />
+            <label for="answer-0"></label>
+          </div>
+          <div class="input-con">
+            <input type="radio" id="answer-1" name="answer" value="1" />
+            <label for="answer-1"></label>
+          </div>
+          <div class="input-con">
+            <input type="radio" id="answer-2" name="answer" value="2" />
+            <label for="answer-2"></label>
+          </div>
+          <div class="input-con">
+            <input type="radio" id="answer-3" name="answer" value="3" />
+            <label for="answer-3"></label>
+          </div>
+          <div class="explanation"></div>
+        </div> -->
+
+        <button class="submit-btn" id="select-btn">Ответить</button>
+        <button class="submit-btn" id="next-btn">Далее ▶</button>
+        <button class="submit-btn" id="finish-btn">Закончить</button>
 
         <!-- resultsHTML -->
       </section>
-      <section id="custom-question">
+      <!-- <section id="custom-question">
         <button id="expand-btn">Создать свой вопрос</button>
 
-        <!-- customQuestionHTML -->
-      </section>
+        customQuestionHTML
+      </section> -->
     </main>
   </body>
   <script src="./data.js"></script>

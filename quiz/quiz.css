@@ -1,13 +1,21 @@
 /* Similar to task.css */
 
 body {
-  display: flex;
+  /* display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center; */
+}
+
+main#quiz {
+  width: 100%;
+  margin: 0;
   align-items: center;
 }
 
 section {
-  width: 480px;
+  min-width: 480px;
+  width: 50%;
   padding: 20px;
 
   background-color: #fff;
@@ -22,16 +30,43 @@ h2 {
   text-align: center;
 }
 
-hr {
-  margin: 8px 0;
+.question-con {
+  padding: 0 4px;
+}
+.question-con.answered {
+  padding-bottom: 2px;
+  cursor: pointer;
+}
+.question-con.answered:hover {
+  background: var(--color5);
 }
 
-#question {
+hr {
+  margin-bottom: 8px;
+}
+
+.question {
   display: block;
-  /* margin: auto; */
+  position: relative;
   margin-bottom: 10px;
 
   width: fit-content;
+}
+.question::after {
+  content: "";
+  display: inline;
+  position: absolute;
+  right: -28px;
+  top: -4px;
+  background: 0 / 24px url(./svg/question.svg);
+  height: 24px;
+  width: 24px;
+}
+.question.correct::after {
+  background: 0 / 24px url(./svg/correct.svg);
+}
+.question.incorrect::after {
+  background: 0 / 24px url(./svg/incorrect.svg);
 }
 
 #container input[type="radio" i] + label {
@@ -51,10 +86,12 @@ hr {
   padding: 1rem;
 }
 
-.correct {
+label.correct,
+p.correct {
   background-image: var(--gradient50);
 }
-.incorrect {
+label.incorrect,
+p.incorrect {
   background-color: #fdd;
 }
 
@@ -70,7 +107,7 @@ hr {
   border-radius: 8px;
 }
 
-#explanation {
+.explanation {
   padding: 0.4rem;
   border: 1px solid var(--color25);
   border-radius: 8px;
