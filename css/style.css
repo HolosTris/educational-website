@@ -176,8 +176,9 @@ h3 {
   /* text-transform: uppercase; */
 }
 article div img,
+article div .img,
 article div video {
-  height: 200px;
+  /* height: 200px; */
   border-radius: 16px;
 }
 article div img {
