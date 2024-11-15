@@ -4,9 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../css/style.css" />
-    <link rel="stylesheet" href="./task.css" />
     <link rel="shortcut icon" href="../img/favicon.ico" type="image/x-icon" />
-    <title>Task</title>
+    <link rel="stylesheet" href="./words.css" />
+    <title>Слова</title>
   </head>
   <body>
     <header>
@@ -26,20 +26,30 @@
       </nav>
       <div class="bg"></div>
     </header>
-    <main>
-      <div id="container">
+    <main id="words">
+      <section id="header">
+        <div class="word" draggable="true">Кит</div>
+      </section>
+      <section id="main">
         <div class="input-con">
-          <label for="formula"><strong>Количество формул:</strong></label>
-          <input type="number" name="formula" id="formula" value="1" />
-          <button name="select" id="select">Выбрать</button>
+          <input
+            type="text"
+            name="input"
+            id="input"
+            placeholder="Введите слова через дефис"
+          />
+          <button id="parsing">Разобрать</button>
         </div>
-        <img id="formula-1" src="./img/formula_1.JPG" alt="" />
-        <strong id="res-1"></strong>
-        <img id="formula-2" src="./img/formula_2.JPG" alt="" />
-        <strong id="res-2"></strong>
-        <img id="formula-3" src="./img/formula_3.JPG" alt="" />
-        <strong id="res-3"></strong>
-      </div>
+        <p id="output">
+          <span>После клика на активный блок, слово появится здесь</span>
+        </p>
+      </section>
+      <section id="aside" dropzone="move">
+        <span
+          >Перенесите сюда блоки со словами, чтобы сделать их активными</span
+        >
+      </section>
+      <div class="bg"></div>
     </main>
   </body>
   <script src="./script.js"></script>
