@@ -22,13 +22,17 @@ const colors = [
 ];
 
 // Test
-input.value = "лес - бочка - 20 - бык - крик - 3 - Бок";
-btn.click();
+// input.value = "лес - бочка - 20 - бык - крик - 3 - Бок";
+// btn.click();
 
 function parse() {
   const text = input.value;
 
-  const arr = text.split("-");
+  const arr = text
+    .split("-")
+    .map((el) => el.trim())
+    .filter((el) => el);
+
   head.innerHTML = "";
 
   const wordDiv = document.createElement("div");
@@ -36,10 +40,10 @@ function parse() {
   wordDiv.draggable = true;
   // wordDiv.ondragstart = () => false;
 
-  const map = new Map();
+  const map = new Map(); // frrf--rf-  - rf
   let [nA, nB, nN] = [1, 1, 1];
   for (let word of arr) {
-    word = word.trim();
+    // word = word.trim();
 
     map.set(
       `${+word}` == word

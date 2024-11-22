@@ -1,7 +1,7 @@
 #words {
   display: grid;
   grid-template:
-    "h h h" 60px
+    "h h h" auto
     "a m m" auto
     "a m m" 60px / 1fr 1fr 1fr;
   gap: 20px;
@@ -20,6 +20,9 @@ section {
 #header {
   grid-area: h;
   align-items: center;
+  height: fit-content;
+  display: inline-flex;
+  flex-wrap: wrap;
 }
 
 #main {
@@ -53,11 +56,18 @@ section {
   text-align: center;
   padding-top: 20px;
 }
-#aside span {
-  color: var(--color50);
-}
 #aside .word {
   cursor: pointer;
+}
+
+#aside-content {
+  /* margin: 20px; */
+}
+
+.placeholder {
+  width: 100%;
+  text-align: center;
+  color: var(--color50);
 }
 
 .word {
@@ -66,4 +76,5 @@ section {
   border-radius: 999px;
   font-weight: bold;
   cursor: grab;
+  word-wrap: break-word;
 }
