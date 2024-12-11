@@ -61,7 +61,7 @@ section {
 }
 
 #aside-content {
-  /* margin: 20px; */
+  margin: 30px;
 }
 
 .placeholder {
@@ -77,4 +77,6 @@ section {
   font-weight: bold;
   cursor: grab;
   word-wrap: break-word;
+  width: 100px;
+  text-align: center;
 }

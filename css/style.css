@@ -59,7 +59,7 @@ body {
   background: white;
   min-height: 600px;
 
-  height: 100vh;
+  /* height: 100vh; */
 
   /* display: grid; */
   /* grid-template-rows: 100px 10vw 5rem; */

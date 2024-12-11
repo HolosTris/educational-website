@@ -31,7 +31,8 @@ function parse() {
   const arr = text
     .split("-")
     .map((el) => el.trim())
-    .filter((el) => el);
+    .filter((el) => el)
+    .filter((el, i, arr) => arr.indexOf(el) == i);
 
   head.innerHTML = "";
 
@@ -43,19 +44,30 @@ function parse() {
   const map = new Map(); // frrf--rf-  - rf
   let [nA, nB, nN] = [1, 1, 1];
   for (let word of arr) {
-    // word = word.trim();
-
-    map.set(
-      `${+word}` == word
-        ? "n" + nN++
-        : word[0].toLowerCase() == word[0]
-        ? "a" + nA++
-        : "b" + nB++,
-      word
-    );
+    if (word[0].toLowerCase() == word[0] && isNaN(word))
+      map.set("a" + nA++, word);
   }
+  for (let word of arr) {
+    if (word[0].toLowerCase() != word[0] && isNaN(word))
+      map.set("b" + nB++, word);
+  }
+  for (let word of arr) {
+    if (`${+word}` == word) map.set("n" + nN++, word);
+  }
+  // for (let word of arr) {
+  //   // word = word.trim();
 
-  for (let [key, word] of new Map([...map.entries()].sort())) {
+  //   map.set(
+  //     `${+word}` == word
+  //       ? "n" + nN++
+  //       : word[0].toLowerCase() == word[0]
+  //       ? "a" + nA++
+  //       : "b" + nB++,
+  //     word
+  //   );
+  // }
+
+  for (let [key, word] of new Map([...map.entries()])) {
     const newWordDiv = wordDiv.cloneNode();
     newWordDiv.innerText = key + " " + word;
     newWordDiv.color = colors[Math.floor(Math.random() * 8)];
@@ -96,7 +108,11 @@ function dragStart(elem, ev) {
 
   dragElem.onmouseup = (ev) => {
     dragElem.hidden = true;
-    if (document.elementFromPoint(ev.clientX, ev.clientY).closest("#aside")) {
+    if (
+      document
+        .elementFromPoint(ev.clientX, ev.clientY)
+        .closest("#aside-content")
+    ) {
       document.onmousemove = null;
       dragElem.onmouseup = null;
       dragElem.hidden = false;

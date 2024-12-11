@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="shortcut icon" href="../img/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="./game.css" />
+    <title>Игра "Колбы"</title>
+  </head>
+  <body>
+    <header>
+      <div class="title">
+        <a href="../">
+          <img src="../img/Logo.png" alt="logo" />
+        </a>
+        <h1>Игра "Колбы"</h1>
+      </div>
+
+      <nav>
+        <a href="../pic.html">CSS-картинка</a>
+        <a href="../logo/logo.html">CSS-лого</a>
+        <a href="../task/">Задание на время</a>
+        <a href="../quiz/">Мини-квиз</a>
+        <a href="../words/">Слова</a>
+        <a href="../game/">Игра "Колбы"</a>
+      </nav>
+      <div class="bg"></div>
+    </header>
+    <main id="game">
+      <section id="container">
+        <span>Введите имя</span>
+        <input
+          type="text"
+          name="name"
+          id="name"
+          autofocus
+          minlength="3"
+          maxlength="3"
+        />
+
+        <!-- <span id="time">00:33</span>
+        <button id="restart"></button>
+        <div id="field">
+          <button
+            class="flask"
+            style="
+              background-image: url('./img/flask_1.png'),
+                url('./img/water_1.png');
+            "
+          ></button>
+          <button
+            class="flask"
+            style="
+              background-image: url('./img/flask_3.png'),
+                url('./img/water_1.png');
+            "
+          ></button>
+          <button
+            class="flask"
+            style="
+              background-image: url('./img/flask_5.png'),
+                url('./img/water_3.png');
+            "
+          ></button>
+        </div>
+        <div id="pointer"></div> -->
+
+        <!-- <span class="rating-h">| Топ игроков |</span>
+        <div id="rating">
+          <span>1. TRS</span><span>2. ___</span><span>3. ___</span
+          ><span>4. ___</span><span>5. ___</span>
+        </div> -->
+      </section>
+    </main>
+  </body>
+  <script type="module" src="./game_triseykin_flasks.js"></script>
+</html>
