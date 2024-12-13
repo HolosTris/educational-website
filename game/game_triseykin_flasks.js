@@ -1,5 +1,6 @@
 import {
   createFlask,
+  createRating,
   generateGameScene,
   toTime,
   updateFlask,
@@ -8,6 +9,9 @@ import {
 const container = document.getElementById("container");
 
 const nameInput = document.getElementById("name");
+let ratingBtn;
+
+initRatingButton();
 
 nameInput.oninput = (ev) => {
   if (nameInput.value.trim().length == 3) nameInput.classList.add("check");
@@ -15,10 +19,19 @@ nameInput.oninput = (ev) => {
 };
 
 // function checkNick() {}
+let name = "";
+let score = 0;
 
 nameInput.onkeydown = (ev) => {
-  if (ev.key == "Enter" && nameInput.classList.contains("check"))
+  if (ev.key == "Enter" && nameInput.classList.contains("check")) {
+    name = nameInput.value.toUpperCase();
+    const scoreName = "score_" + name;
+
+    if (!localStorage.getItem(scoreName)) localStorage.setItem(scoreName, "0");
+    else score = +localStorage.getItem(scoreName);
+
     renderGameScene();
+  }
 };
 
 // Game Scene
@@ -28,9 +41,9 @@ let select = document.getElementById("select");
 let pointer = document.getElementById("pointer");
 let restartBtn = document.getElementById("restart");
 let timeSpan = document.getElementById("time");
+let scoreSpan = document.getElementById("score");
 
 let time = 0;
-let score = 0;
 let goal = 0;
 let pointered = -1;
 let selected = -1;
@@ -46,27 +59,35 @@ function renderGameScene() {
   pointer = document.getElementById("pointer");
   restartBtn = document.getElementById("restart");
   timeSpan = document.getElementById("time");
+  scoreSpan = document.getElementById("score");
+
+  scoreSpan.innerText = score;
+
+  initRatingButton();
+
+  movePointerToFlask(0);
+  moveSelectToFlask(-1);
 
   [...flasks].forEach((el, i) => {
     water.push(+el.getAttribute("water"));
     volumes.push(+el.getAttribute("volume"));
 
     el.onclick = () => {
-      movePointerToFlask(-1);
-
       if (selected == -1) {
         moveSelectToFlask(i);
       } else if (selected == i) {
-        moveSelectToFlask(-1);
-      } else pour(selected, i);
+        moveSelectToFlask();
+      } else {
+        pour(selected, i);
+        moveSelectToFlask();
+      }
+
+      // movePointerToFlask(-1);
     };
   });
 
-  movePointerToFlask(0);
-  moveSelectToFlask(-1);
-
   time = +timeSpan.getAttribute("time");
-  goal = +document.getElementById("time").getAttribute("goal") / 10;
+  goal = +document.getElementById("goal").getAttribute("goal");
 
   const timerId = setInterval(() => {
     if (--time > 0) timeSpan.innerText = toTime(time);
@@ -82,13 +103,26 @@ function renderGameScene() {
   };
 }
 
-function pour(from, to) {
-  moveSelectToFlask(-1);
+function initRatingButton() {
+  ratingBtn = document.getElementById("rating-btn");
 
+  ratingBtn.onclick = () => {
+    container.innerHTML = createRating();
+  };
+}
+
+function pour(from, to) {
   const pouringWater =
     water[from] < volumes[to] - water[to]
       ? water[from]
       : volumes[to] - water[to];
+
+  console.log(
+    "pourW fromW toW",
+    pouringWater,
+    water[from],
+    volumes[to] - water[to]
+  );
 
   if (!pouringWater) {
     flasks[from].classList.add("non-pouring");
@@ -97,6 +131,7 @@ function pour(from, to) {
   }
 
   flasks[from].classList.add("pouring");
+
   setTimeout(() => flasks[from].classList.remove("pouring"), 3000);
 
   water[from] -= pouringWater;
@@ -113,17 +148,17 @@ function movePointerToFlask(i = -1) {
     pointer.hidden = true;
     return;
   }
-  if (i == pointered) return;
+  // if (i == pointered) return;
 
-  pointer.hidden = false;
-  const x =
-    flasks[i].getBoundingClientRect().left -
-    container.getBoundingClientRect().left;
-  pointer.style = `left: ${x}px`;
+  // pointer.hidden = false;
+  // const x =
+  //   flasks[i].getBoundingClientRect().left -
+  //   container.getBoundingClientRect().left;
+  // pointer.style = `left: ${x}px`;
 }
 
 function moveSelectToFlask(i = -1) {
-  if (i == selected) return;
+  // if (i == selected) return;
 
   selected = i;
 
@@ -141,10 +176,20 @@ function moveSelectToFlask(i = -1) {
 }
 
 function checkVictory() {
-  if (![...flasks].find((el, i) => water[i] == goal)) return;
+  if (
+    [...flasks].find((el, i) => {
+      console.log("wat goal", water[i], goal);
+
+      return water[i] == goal;
+    }) === undefined
+  )
+    return;
 
   score += goal * 10;
+  localStorage.setItem("score_" + name, score);
+
   restartBtn.click();
+  scoreSpan.innerText = score;
 }
 
 function updateScore() {}

@@ -8,8 +8,8 @@
   align-items: center;
   gap: 20px;
 
-  width: 480px;
-  height: 360px;
+  width: 640px;
+  height: 480px;
   background-color: #333;
   border-radius: 40px;
   margin: auto;
@@ -67,6 +67,13 @@ input:focus::placeholder {
   border-color: #6aff50 !important;
 }
 
+#rating-btn {
+  position: absolute;
+  bottom: 24px;
+  right: 24px;
+  background-image: url("./img/notes.png");
+}
+
 /* Game scene */
 
 button {
@@ -77,6 +84,12 @@ button {
   border-radius: 0;
   width: 48px;
   height: 48px;
+
+  /* border: 4px solid #fff; */
+  border: 4px solid transparent;
+}
+button:hover {
+  border: 4px dashed #fff;
 }
 
 #restart {
@@ -84,12 +97,6 @@ button {
   top: 24px;
   right: 24px;
   background-image: url("./img/reload.png");
-
-  /* border: 4px solid #fff; */
-  border: 4px solid transparent;
-}
-#restart:hover {
-  border: 4px dashed #fff;
 }
 
 #score {
@@ -125,12 +132,16 @@ button {
 
 .flask {
   height: 96px;
+  border: none;
+}
+.flask:hover {
+  border: none;
 }
 
 #pointer,
 #select {
   position: absolute;
-  bottom: 96px;
+  bottom: 128px;
   width: 48px;
   height: 48px;
   background-image: url("./img/chevron-up.png");
@@ -154,7 +165,7 @@ button {
   display: flex;
   flex-direction: column;
 
-  width: 192px;
+  width: 240px;
 }
 
 #rating span {
