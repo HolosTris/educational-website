@@ -10,9 +10,12 @@ export function generateGameScene() {
   const flaskWaters = new Array(amountOfFlasks).fill(0);
 
   for (let i = 0; i < amountOfFlasks; i++) {
-    const volume = goal + Math.floor(Math.random() * 4 + 1);
+    const volume = Math.floor(Math.random() * 4 + 1);
     flaskVolumes[i] = volume < 5 ? volume : 5;
   }
+
+  if (!flaskVolumes.find((el) => el < goal))
+    flaskVolumes[Math.floor(Math.random() * flaskVolumes.length)] = goal + 1;
 
   let totalWater = Math.max(...flaskVolumes);
 
