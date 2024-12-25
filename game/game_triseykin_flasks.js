@@ -128,12 +128,19 @@ function renderGameScene() {
     }, 1000);
   }
 
+  // Hint
+  const hintTimerId = setTimeout(() => {
+    restartBtn.classList.add("hint");
+    clearTimeout(hintTimerId);
+  }, 10000);
+
   timeSpan.innerText = toTime(time);
 
   goal = +document.getElementById("goal").getAttribute("goal");
 
   restartBtn.onclick = () => {
     renderGameScene();
+    clearTimeout(hintTimerId);
     // clearInterval(timerId);
   };
 }

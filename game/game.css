@@ -64,7 +64,7 @@ input:focus::placeholder {
 
 .check {
   color: #6aff50;
-  border-color: #6aff50 !important;
+  border-color: #6aff50;
 }
 
 #rating-btn {
@@ -190,6 +190,14 @@ button:hover {
   animation: non-pouring 1s ease forwards;
 }
 
+/* Hint */
+.hint {
+  animation: hint 3s infinite;
+}
+.hint:hover {
+  border: 4px dashed #fff !important;
+}
+
 /* Congrats Scene */
 .congrats {
   animation: congrats 0.6s ease infinite;
@@ -240,5 +248,17 @@ button:hover {
   }
   100% {
     transform: translateY(0px);
+  }
+}
+
+@keyframes hint {
+  0% {
+    border: 4px double transparent;
+  }
+  50% {
+    border: 4px double #6aff50;
+  }
+  100% {
+    border: 4px double transparent;
   }
 }
