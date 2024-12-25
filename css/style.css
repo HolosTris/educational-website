@@ -126,6 +126,7 @@ header nav a {
 header .bg,
 footer .bg {
   background: #eeed;
+  border-radius: 20px;
 }
 
 main {

@@ -6,7 +6,7 @@ import {
   toTime,
   updateFlask,
   randomInt,
-} from "./utils.js";
+} from "../game/utils.js";
 
 const container = document.getElementById("container");
 
