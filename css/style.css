@@ -434,3 +434,11 @@ footer:after {
   height: 1px;
   border-bottom: 1px solid rgba(31, 32, 65, 0.5);
 }
+
+/* Decorations */
+
+.flasks-link {
+  background-color: #333;
+  color: #fff;
+  font-family: "Courier New", Courier, monospace;
+}

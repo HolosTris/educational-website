@@ -1,38 +1,53 @@
 import {
   createFlask,
-  createRating,
+  createRatingScene,
+  renderStartScene,
   generateGameScene,
   toTime,
   updateFlask,
+  randomInt,
 } from "./utils.js";
 
 const container = document.getElementById("container");
 
-const nameInput = document.getElementById("name");
+container.innerHTML = renderStartScene();
+
+// Start Scene
+
+let nameInput;
 let ratingBtn;
 
-initRatingButton();
+let name;
+let score;
 
-nameInput.oninput = (ev) => {
-  if (nameInput.value.trim().length == 3) nameInput.classList.add("check");
-  else nameInput.classList.remove("check");
-};
+initStartScene();
 
-// function checkNick() {}
-let name = "";
-let score = 0;
+function initStartScene() {
+  nameInput = document.getElementById("name");
+  name = "";
+  score = 0;
 
-nameInput.onkeydown = (ev) => {
-  if (ev.key == "Enter" && nameInput.classList.contains("check")) {
-    name = nameInput.value.toUpperCase();
-    const scoreName = "score_" + name;
+  initRatingButton();
 
-    if (!localStorage.getItem(scoreName)) localStorage.setItem(scoreName, "0");
-    else score = +localStorage.getItem(scoreName);
+  nameInput.oninput = () => {
+    if (nameInput.value.trim().length == 3) nameInput.classList.add("check");
+    else nameInput.classList.remove("check");
+  };
 
-    renderGameScene();
-  }
-};
+  // function checkNick() {}
+
+  nameInput.onkeydown = (ev) => {
+    if (ev.key == "Enter" && nameInput.classList.contains("check")) {
+      name = nameInput.value.toUpperCase();
+      const scoreName = "score_" + name;
+
+      // if (!localStorage.getItem(scoreName)) localStorage.setItem(scoreName, "0");
+      // else score = +localStorage.getItem(scoreName);
+
+      renderGameScene();
+    }
+  };
+}
 
 // Game Scene
 
@@ -40,7 +55,9 @@ let flasks = document.getElementsByClassName("flask");
 let select = document.getElementById("select");
 let pointer = document.getElementById("pointer");
 let restartBtn = document.getElementById("restart");
+let backBtn = document.getElementById("back-btn");
 let timeSpan = document.getElementById("time");
+let goalSpan = document.getElementById("goal");
 let scoreSpan = document.getElementById("score");
 
 let time = 0;
@@ -51,6 +68,8 @@ let selected = -1;
 const water = [];
 const volumes = [];
 
+let timerId;
+
 function renderGameScene() {
   container.innerHTML = generateGameScene();
 
@@ -59,18 +78,26 @@ function renderGameScene() {
   pointer = document.getElementById("pointer");
   restartBtn = document.getElementById("restart");
   timeSpan = document.getElementById("time");
+  goalSpan = document.getElementById("goal");
   scoreSpan = document.getElementById("score");
 
   scoreSpan.innerText = score;
 
+  initBackButton();
   initRatingButton();
 
   movePointerToFlask(0);
   moveSelectToFlask(-1);
 
   [...flasks].forEach((el, i) => {
-    water.push(+el.getAttribute("water"));
-    volumes.push(+el.getAttribute("volume"));
+    console.log(
+      "wat vol attr",
+      el.getAttribute("water"),
+      el.getAttribute("volume")
+    );
+    water[i] = +el.getAttribute("water");
+    volumes[i] = +el.getAttribute("volume");
+    console.log("wat vol", water[i], volumes[i]);
 
     el.onclick = () => {
       if (selected == -1) {
@@ -86,20 +113,28 @@ function renderGameScene() {
     };
   });
 
-  time = +timeSpan.getAttribute("time");
-  goal = +document.getElementById("goal").getAttribute("goal");
+  if (!timerId) {
+    time = +timeSpan.getAttribute("time");
+    timerId = setInterval(() => {
+      if (--time > 0) updateTime();
+      else {
+        timeSpan.innerText = "Время вышло";
+        clearInterval(timerId);
+        timerId = undefined;
 
-  const timerId = setInterval(() => {
-    if (--time > 0) timeSpan.innerText = toTime(time);
-    else {
-      timeSpan.innerText = "Время вышло";
-      clearInterval(timerId);
-    }
-  }, 1000);
+        updateScore();
+        score = 0;
+      }
+    }, 1000);
+  }
+
+  timeSpan.innerText = toTime(time);
+
+  goal = +document.getElementById("goal").getAttribute("goal");
 
   restartBtn.onclick = () => {
     renderGameScene();
-    clearInterval(timerId);
+    // clearInterval(timerId);
   };
 }
 
@@ -107,7 +142,20 @@ function initRatingButton() {
   ratingBtn = document.getElementById("rating-btn");
 
   ratingBtn.onclick = () => {
-    container.innerHTML = createRating();
+    container.innerHTML = createRatingScene();
+    initBackButton();
+  };
+}
+
+function initBackButton() {
+  ratingBtn = document.getElementById("back-btn");
+
+  ratingBtn.onclick = () => {
+    timerId ? clearInterval(timerId) : "";
+    timerId = undefined;
+
+    container.innerHTML = renderStartScene();
+    initStartScene();
   };
 }
 
@@ -118,7 +166,7 @@ function pour(from, to) {
       : volumes[to] - water[to];
 
   console.log(
-    "pourW fromW toW",
+    "pourW fromW toWFree",
     pouringWater,
     water[from],
     volumes[to] - water[to]
@@ -176,20 +224,47 @@ function moveSelectToFlask(i = -1) {
 }
 
 function checkVictory() {
-  if (
-    [...flasks].find((el, i) => {
-      console.log("wat goal", water[i], goal);
+  const victoryFlask = [...flasks].find((el, i) => {
+    console.log("wat goal", water[i], goal);
 
-      return water[i] == goal;
-    }) === undefined
-  )
-    return;
+    return water[i] == goal;
+  });
+
+  if (!victoryFlask) return;
 
   score += goal * 10;
-  localStorage.setItem("score_" + name, score);
+  // localStorage.setItem("score_" + name, score); // accumulative version
 
-  restartBtn.click();
-  scoreSpan.innerText = score;
+  updateScore();
+
+  showVictory(victoryFlask);
 }
 
-function updateScore() {}
+const congrats = [
+  "Отлично!",
+  "Верно!",
+  "Прекрасно!",
+  "Шикарно!",
+  "Моё почтение!",
+];
+
+function showVictory(victoryFlask) {
+  const congratsTimerId = setTimeout(() => restartBtn.click(), 2000);
+  time += 5;
+  updateTime();
+
+  goalSpan.innerText = congrats[randomInt(0, congrats.length - 1)];
+  timeSpan.classList.add("frozen");
+
+  victoryFlask.classList.add("congrats");
+}
+
+function updateTime() {
+  timeSpan.innerText = toTime(time);
+}
+
+function updateScore() {
+  if (score > localStorage.getItem("score_" + name))
+    localStorage.setItem("score_" + name, score);
+  scoreSpan.innerText = score;
+}

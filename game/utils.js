@@ -4,23 +4,23 @@ export function generateGameScene() {
   // Могут быть нерешаемые задачи, так как воды может оказаться меньше, чем надо
   const flaskBtns = [];
 
-  const amountOfFlasks = Math.floor(Math.random() * 4 + 2);
-  const goal = Math.floor(Math.random() * 4 + 1);
+  const amountOfFlasks = randomInt(2, 5);
+  const goal = randomInt(1, 4);
   const flaskVolumes = [];
   const flaskWaters = new Array(amountOfFlasks).fill(0);
 
   for (let i = 0; i < amountOfFlasks; i++) {
-    const volume = Math.floor(Math.random() * 4 + 1);
+    const volume = randomInt(1, 5);
     flaskVolumes[i] = volume < 5 ? volume : 5;
   }
 
-  if (!flaskVolumes.find((el) => el < goal))
-    flaskVolumes[Math.floor(Math.random() * flaskVolumes.length)] = goal + 1;
+  if (flaskVolumes.find((el) => el < goal))
+    flaskVolumes[randomInt(0, flaskVolumes.length - 1)] = goal + 1;
 
   let totalWater = Math.max(...flaskVolumes);
 
   while (totalWater > 0) {
-    const rndFlask = Math.floor(Math.random() * amountOfFlasks);
+    const rndFlask = randomInt(0, amountOfFlasks - 1);
 
     if (
       flaskWaters[rndFlask] == goal - 1 &&
@@ -57,6 +57,7 @@ export function generateGameScene() {
         </div>
         <div id="pointer"></div>
         <div id="select"></div>
+        <button id="back-btn"></button>
         <span id="goal" goal="${goal}">Отмерьте ${goal * 10} грамм</span>
         <button id="rating-btn"></button>`;
 }
@@ -87,7 +88,20 @@ export function toTime(secs) {
   return date.toISOString().substring(14, 19);
 }
 
-export function createRating() {
+export function renderStartScene() {
+  return `<span>Введите имя</span>
+          <input
+            type="text"
+            name="name"
+            id="name"
+            autofocus
+            minlength="3"
+            maxlength="3"
+          />
+          <button id="rating-btn"></button>`;
+}
+
+export function createRatingScene() {
   const scores = [];
   let iScore = 0;
 
@@ -115,5 +129,10 @@ export function createRating() {
   return `<span class="rating-h">| Топ игроков |</span>
         <div id="rating">
           ${spans.join("")}
-        </div>`;
+        </div>
+        <button id="back-btn"></button>`;
+}
+
+export function randomInt(from, to) {
+  return Math.floor(Math.random() * (to - from + 1) + from);
 }
