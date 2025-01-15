@@ -119,6 +119,7 @@ function renderGameScene() {
       if (--time > 0) updateTime();
       else {
         timeSpan.innerText = "Время вышло";
+        disableFlasks();
         clearInterval(timerId);
         timerId = undefined;
 
@@ -274,4 +275,8 @@ function updateScore() {
   if (score > localStorage.getItem("score_" + name))
     localStorage.setItem("score_" + name, score);
   scoreSpan.innerText = score;
+}
+
+function disableFlasks() {
+  for (let flask of flasks) flask.disabled = true;
 }

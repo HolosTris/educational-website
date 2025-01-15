@@ -5,7 +5,7 @@ export function generateGameScene() {
   const flaskBtns = [];
 
   const amountOfFlasks = randomInt(2, 5);
-  const goal = randomInt(1, 4);
+  const goal = randomInt(1, 7);
   const flaskVolumes = [];
   const flaskWaters = new Array(amountOfFlasks).fill(0);
 
